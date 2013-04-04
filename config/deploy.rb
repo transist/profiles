@@ -12,7 +12,7 @@ role :web, "profiles.transi.st:23"                          # Your HTTP server, 
 role :app, "profiles.transi.st:23"                          # This may be the same as your `Web` server
 role :db,  "profiles.transi.st:23", :primary => true # This is where Rails migrations will run
 role :db,  "profiles.transi.st:23"
-load 'deploy/assets'
+# load 'deploy/assets'
 set :scm, :git
 set :group, 'deploy'
 set :repository, 'git@github.com:transist/profiles.git'

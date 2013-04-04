@@ -25,7 +25,7 @@ module Profiles
       g.orm :mongoid 
     end
 
-    config.assets.initialize_on_precompile = false 
+    config.assets.compile = true 
     config.assets.enabled = true
     config.assets.version = '1.0'
   end
