@@ -1,5 +1,9 @@
+require 'rvm/capistrano'
+require "bundler/capistrano"
+
 set :application, "profiles"
 set :repository,  "profiles"
+set :rvm_ruby_string, 'ruby-2.0.0-p0'
 
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
@@ -10,14 +14,11 @@ role :db,  "profiles.transi.st:23", :primary => true # This is where Rails migra
 role :db,  "profiles.transi.st:23"
 
 set :scm, :git
+set :group, 'deploy'
 set :repository, 'git@github.com:transist/profiles.git'
-# if you want to clean up old releases on each deploy uncomment this:
-# after "deploy:restart", "deploy:cleanup"
+set :deploy_via, :remote_cache
+set :copy_cache, "#{deploy_to}/shared/copy_cache"
 
-# if you're still using the script/reaper helper you will need
-# these http://github.com/rails/irs_process_scripts
-
-# If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
   task :start do
     sudo '/usr/local/bin/monit -g thin start'
@@ -30,8 +31,11 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/system/images #{release_path}/public/images"
     run "ln -nfs #{shared_path}/system/javascripts #{release_path}/public/javascripts"
     run "ln -nfs #{shared_path}/system/stylesheets #{release_path}/public/stylesheets"
-    run "cd #{release_path}; bundle install"
-    run "cd #{release_path}; bundle exec rake assets:precompile"
+    
+  end
+  
+  task :compile do
+    run "cd #{release_path}; rake assets:precompile RAILS_ENV=production "
   end
   
   task :restart, :roles => :app, :except => { :no_release => true } do
@@ -39,5 +43,6 @@ namespace :deploy do
   end
 end
 
-before 'deploy:finalize_update', 'deploy:symlink_shared'
+before 'bundle:install', 'deploy:symlink_shared'
+after 'bundle:install', 'deploy:compile'
 

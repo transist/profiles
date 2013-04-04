@@ -141,6 +141,8 @@ GEM
       redis (~> 3.0.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rvm-capistrano (1.2.7)
+      capistrano (>= 2.0.0)
     sass (3.2.7)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -197,6 +199,7 @@ DEPENDENCIES
   pg
   psych
   rails (= 3.2.13)
+  rvm-capistrano
   sass
   sass-rails (~> 3.2.3)
   sidekiq
