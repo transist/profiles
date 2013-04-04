@@ -11,6 +11,16 @@ gem 'devise'
 gem 'cancan'
 gem 'bson_ext'
 gem 'psych'
+gem "mongoid"
+gem "bson_ext"
+gem 'curb'
+gem 'yajl-ruby'
+gem 'weibo_2'
+gem 'hpricot'
+gem 'haml'
+gem 'sass'
+gem 'thin'
+gem 'sidekiq'
 
 # Gems used only for assets and not required
 # in production environments by default.
