@@ -12,7 +12,7 @@ role :web, "profiles.transi.st:23"                          # Your HTTP server, 
 role :app, "profiles.transi.st:23"                          # This may be the same as your `Web` server
 role :db,  "profiles.transi.st:23", :primary => true # This is where Rails migrations will run
 role :db,  "profiles.transi.st:23"
-# load 'deploy/assets'
+load 'deploy/assets'
 set :scm, :git
 set :group, 'deploy'
 set :repository, 'git@github.com:transist/profiles.git'
@@ -21,10 +21,10 @@ set :copy_cache, "#{deploy_to}/shared/copy_cache"
 
 namespace :deploy do
   task :start do
-    sudo '/usr/local/bin/monit -g thin start'
+    run "cd #{current_release} && /Users/scott/.rvm/gems/ruby-2.0.0-p0@global/bin/bundle exec thin start -C #{current_release}/config/thin.yml"
   end
   task :stop do
-    sudo '/usr/local/bin/monit -g thin stop'
+    run "cd #{current_release} && /Users/scott/.rvm/gems/ruby-2.0.0-p0@global/bin/bundle exec thin stop -C #{current_release}/config/thin.yml"
   end
   
   task :symlink_shared do
@@ -35,7 +35,9 @@ namespace :deploy do
   end
   
   task :restart, :roles => :app, :except => { :no_release => true } do
-    sudo '/usr/local/bin/monit -g thin restart'
+    # sudo '/usr/local/bin/monit -g thin restart'
+    stop
+    start
   end
 end
 
