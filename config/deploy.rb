@@ -19,8 +19,12 @@ set :repository, 'git@github.com:transist/profiles.git'
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
+  task :start do
+    
+  end
+  task :stop do
+  
+  end
   
   task :symlink_shared do
     run "ln -nfs #{shared_path}/system/images #{release_path}/public/images"
@@ -29,8 +33,8 @@ namespace :deploy do
   end
   
   task :restart, :roles => :app, :except => { :no_release => true } do
-    # run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+    # run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"`
   end
 end
 
-after 'deploy:update_code', 'deploy:symlink_shared'
+before 'deploy:finalize_update', 'deploy:symlink_shared'
