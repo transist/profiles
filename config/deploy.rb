@@ -43,7 +43,7 @@ end
 
 namespace :bundle do
   task :install do
-    run "cd #{current_release} && bundle install --gemfile #{current_release}/Gemfile --path #{shared_path}/bundle --quiet --without development test"
+    run "cd #{current_release} && bundle install --gemfile #{current_release}/Gemfile --path #{shared_path}/bundle --without development test"
   end
 end
 
