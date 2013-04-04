@@ -16,7 +16,7 @@ gem "bson_ext"
 gem 'curb'
 gem 'yajl-ruby'
 gem 'weibo_2'
-gem 'hpricot'
+gem 'nokogiri'
 gem 'haml'
 gem 'sass'
 gem 'thin'
