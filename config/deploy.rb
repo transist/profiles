@@ -20,21 +20,24 @@ set :repository, 'git@github.com:transist/profiles.git'
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
   task :start do
-    
+    sudo '/usr/local/bin/monit -g thin start'
   end
   task :stop do
-  
+    sudo '/usr/local/bin/monit -g thin stop'
   end
   
   task :symlink_shared do
     run "ln -nfs #{shared_path}/system/images #{release_path}/public/images"
     run "ln -nfs #{shared_path}/system/javascripts #{release_path}/public/javascripts"
     run "ln -nfs #{shared_path}/system/stylesheets #{release_path}/public/stylesheets"
+    run "cd #{release_path}; bundle install"
+    run "cd #{release_path}; bundle exec rake assets:precompile"
   end
   
   task :restart, :roles => :app, :except => { :no_release => true } do
-    # run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"`
+    sudo '/usr/local/bin/monit -g thin restart'
   end
 end
 
 before 'deploy:finalize_update', 'deploy:symlink_shared'
+
