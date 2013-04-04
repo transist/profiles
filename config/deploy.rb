@@ -12,7 +12,7 @@ role :web, "profiles.transi.st:23"                          # Your HTTP server, 
 role :app, "profiles.transi.st:23"                          # This may be the same as your `Web` server
 role :db,  "profiles.transi.st:23", :primary => true # This is where Rails migrations will run
 role :db,  "profiles.transi.st:23"
-
+load 'deploy/assets'
 set :scm, :git
 set :group, 'deploy'
 set :repository, 'git@github.com:transist/profiles.git'
@@ -34,15 +34,17 @@ namespace :deploy do
     
   end
   
-  task :compile do
-    run "cd #{release_path}; rake assets:precompile RAILS_ENV=production "
-  end
-  
   task :restart, :roles => :app, :except => { :no_release => true } do
     sudo '/usr/local/bin/monit -g thin restart'
   end
 end
 
+namespace :bundle do
+  task :install do
+    run "cd #{current_release} && bundle install --gemfile #{current_release}/Gemfile --path #{shared_path}/bundle --without development test"
+  end
+end
+
 before 'bundle:install', 'deploy:symlink_shared'
-after 'bundle:install', 'deploy:compile'
+# after 'bundle:install', 'deploy:compile'
 
