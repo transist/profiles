@@ -1,2 +1,1 @@
-rvm ruby-2.0.0-p0@profiles
-rvm_archflags="-arch x86_64"
+rvm 1.9.3@profiles

@@ -1,7 +1,7 @@
 require 'rvm/capistrano'
 require "bundler/capistrano"
-# require 'sidekiq/capistrano'
-set :bundle_cmd, '/Users/scott/.rvm/gems/ruby-2.0.0-p0@global/bin/bundle'
+require 'sidekiq/capistrano'
+set :bundle_cmd, '/Users/scott/.rvm/gems/ruby-1.9.3-p392@global/bin/bundle'
 
 set :application, "profiles"
 set :repository,  "profiles"
@@ -57,7 +57,7 @@ end
 
 namespace :bundle do
   task :install do
-    run "cd #{current_release} && bundle install --gemfile #{current_release}/Gemfile --path #{shared_path}/bundle --quiet --without development test"
+    run "cd #{current_release} && #{bundle_cmd} install --gemfile #{current_release}/Gemfile --path #{shared_path}/bundle --quiet --without development test"
   end
 end
 
