@@ -23,6 +23,8 @@ gem 'thin'
 gem 'sidekiq'
 gem 'capistrano'
 gem 'rvm-capistrano'
+gem 'inherited_resources'
+gem 'has_scope'
 
 # Gems used only for assets and not required
 # in production environments by default.
