@@ -41,8 +41,8 @@ namespace :deploy do
   
   task :restart, :roles => :app, :except => { :no_release => true } do
     # sudo '/usr/local/bin/monit -g thin restart'
-    stop
-    start
+    run "cd #{current_release} && /Users/scott/.rvm/gems/ruby-2.0.0-p0@global/bin/bundle exec thin stop -C #{current_release}/config/thin.yml"
+    run "cd #{current_release} && /Users/scott/.rvm/gems/ruby-2.0.0-p0@global/bin/bundle exec thin start -C #{current_release}/config/thin.yml"
   end
 end
 
