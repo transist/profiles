@@ -1,5 +1,6 @@
 require 'rvm/capistrano'
 require "bundler/capistrano"
+require 'sidekiq/capistrano'
 
 set :application, "profiles"
 set :repository,  "profiles"
