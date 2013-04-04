@@ -32,7 +32,11 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/system/images #{release_path}/public/images"
     run "ln -nfs #{shared_path}/system/javascripts #{release_path}/public/javascripts"
     run "ln -nfs #{shared_path}/system/stylesheets #{release_path}/public/stylesheets"
-    
+    # run 'rm /u/apps/profiles/current/tmp/pids/sidekiq.pid'
+  end
+  
+  task :sweep_sidekiq_pid do
+    run "if [ -d /u/apps/profiles/current ] && [ -f /u/apps/profiles/current/tmp/pids/sidekiq.pid ]; then rm /u/apps/profiles/current/tmp/pids/sidekiq.pid ; fi"
   end
   
   task :restart, :roles => :app, :except => { :no_release => true } do
@@ -44,9 +48,9 @@ end
 
 namespace :bundle do
   task :install do
-    run "cd #{current_release} && bundle install --gemfile #{current_release}/Gemfile --path #{shared_path}/bundle --without development test"
+    run "cd #{current_release} && bundle install --gemfile #{current_release}/Gemfile --path #{shared_path}/bundle --quiet --without development test"
   end
 end
 
 before 'bundle:install', 'deploy:symlink_shared'
-
+after 'sidekiq:quiet', 'deploy:sweep_sidekiq_pid'
