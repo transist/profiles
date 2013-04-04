@@ -1,6 +1,6 @@
 require 'rvm/capistrano'
 require "bundler/capistrano"
-require 'sidekiq/capistrano'
+# require 'sidekiq/capistrano'
 set :bundle_cmd, '/Users/scott/.rvm/gems/ruby-2.0.0-p0@global/bin/bundle'
 
 set :application, "profiles"
@@ -63,4 +63,4 @@ end
 
 before 'bundle:install', 'deploy:symlink_shared'
 # after 'sidekiq:quiet', 'deploy:sweep_sidekiq_pid'
-after 'sidekiq:quiet', 'deploy:sweep_sidekiq_pid'
+# after 'sidekiq:quiet', 'deploy:sweep_sidekiq_pid'
