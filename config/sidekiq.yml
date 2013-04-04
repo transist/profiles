@@ -4,4 +4,7 @@
 staging:
   :concurrency: 1
 production:
-  :concurrency: 1
+  :queues:
+    - [sina, 1]
+    - [tencent, 1]
+    - [spider, 3]
